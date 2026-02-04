@@ -11,7 +11,7 @@ from .deepseek import DeepSeekClient
 from .glm4 import GLM4Client
 from .qwen import QwenClient
 from .openai_client import OpenAIClient
-from ...utils.constants import LLM_CONFIG_FILE
+from ...utils.constants import LLM_CONFIG_FILE, RESOURCES_ROOT
 from ...utils.helpers import load_json, save_json
 
 
@@ -25,6 +25,9 @@ class LLMManager:
         'qwen': QwenClient,
         'openai': OpenAIClient,
     }
+    
+    # 资源目录中的默认配置
+    DEFAULT_CONFIG_PATH = RESOURCES_ROOT / "config" / "llm_config.json"
     
     def __init__(self, config_path: Path = None):
         self.config_path = config_path or LLM_CONFIG_FILE
@@ -93,10 +96,23 @@ class LLMManager:
     
     def _load_config(self) -> Dict[str, Any]:
         """加载配置文件"""
+        # 1. 尝试从用户目录加载
         config = load_json(self.config_path, None)
-        if config is None:
-            config = self._default_config()
-            self._save_config()
+        if config is not None:
+            return config
+        
+        # 2. 尝试从资源目录加载默认配置
+        if self.DEFAULT_CONFIG_PATH.exists():
+            config = load_json(self.DEFAULT_CONFIG_PATH, None)
+            if config is not None:
+                # 复制到用户目录
+                self.config = config
+                self._save_config()
+                return config
+        
+        # 3. 使用内置默认配置
+        config = self._default_config()
+        self._save_config()
         return config
     
     def _save_config(self) -> bool:

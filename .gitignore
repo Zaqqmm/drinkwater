@@ -94,12 +94,26 @@ diet_records.json
 logs/
 
 # =====================================================
-# PyInstaller
+# PyInstaller 打包
 # =====================================================
 *.manifest
 *.spec.bak
 dist/
 build/
+
+# 打包产物
+*.app/
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.deb
+*.rpm
+
+# PyInstaller 临时文件
+*.spec.bak
+warn-*.txt
+xref-*.html
 
 # =====================================================
 # 测试
@@ -111,6 +125,7 @@ build/
 htmlcov/
 .pytest_cache/
 .hypothesis/
+test_api.py
 
 # =====================================================
 # Jupyter Notebook
@@ -128,8 +143,3 @@ htmlcov/
 # 临时文件
 tmp/
 temp/
-
-# 打包产物
-*.exe
-*.msi
-*.dmg
