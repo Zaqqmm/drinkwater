@@ -45,23 +45,47 @@
 ### 环境要求
 - Python 3.10+
 - Windows 10/11（最终运行环境）
+- [uv](https://github.com/astral-sh/uv) - 推荐的 Python 包管理器
 
-### 安装依赖
+### 方式一：使用 uv（推荐 ⭐）
+
+```bash
+# 安装 uv（如果还没有）
+# macOS/Linux:
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows:
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# 进入项目目录
+cd drinkwater
+
+# 创建虚拟环境并安装依赖（自动读取 pyproject.toml）
+uv sync
+
+# 运行应用
+uv run python main.py
+
+# 或者激活虚拟环境后运行
+source .venv/bin/activate  # Linux/macOS
+# .venv\Scripts\activate   # Windows
+python main.py
+```
+
+### 方式二：使用 pip
 
 ```bash
 cd drinkwater
 pip install -r requirements.txt
-```
-
-### 运行应用
-
-```bash
 python main.py
 ```
 
 ### 打包为 exe
 
 ```bash
+# 使用 uv
+uv run pyinstaller setup.spec
+
+# 或使用 pip
 pip install pyinstaller
 pyinstaller setup.spec
 ```

@@ -1,0 +1,78 @@
+[project]
+name = "drinkwater"
+version = "1.0.0"
+description = "孕期健康提醒助手 - Windows 桌面应用"
+authors = [
+    { name = "DrinkWater Team" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+
+keywords = ["pregnancy", "reminder", "health", "desktop", "pyside6"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: X11 Applications :: Qt",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Desktop Environment",
+]
+
+dependencies = [
+    # UI 框架
+    "PySide6>=6.6.0",
+    
+    # 定时调度
+    "APScheduler>=3.10.4",
+    
+    # 系统通知
+    "plyer>=2.1.0",
+    
+    # HTTP 客户端（用于 API 调用）
+    "httpx>=0.25.0",
+    
+    # 版本管理
+    "packaging>=23.0",
+    
+    # JWT 认证（用于 GLM-4）
+    "PyJWT>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pyinstaller>=6.0.0",
+    "pytest>=7.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Zaqqmm/drinkwater"
+Repository = "https://github.com/Zaqqmm/drinkwater"
+Issues = "https://github.com/Zaqqmm/drinkwater/issues"
+
+[project.scripts]
+drinkwater = "main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
