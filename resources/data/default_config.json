@@ -1,0 +1,73 @@
+{
+  "autostart": false,
+  "theme": "hello_kitty",
+  "language": "zh_CN",
+  "water_reminder": {
+    "enabled": true,
+    "interval_minutes": 45,
+    "start_time": "09:00",
+    "end_time": "18:00"
+  },
+  "pregnancy": {
+    "enabled": false,
+    "last_period_date": null,
+    "daily_tip_time": "09:00"
+  },
+  "workplace_reminders": {
+    "stand_up": {
+      "enabled": true,
+      "interval_minutes": 45,
+      "work_hours": {
+        "start": "09:00",
+        "end": "18:00"
+      },
+      "exclude_lunch": true
+    },
+    "eye_rest": {
+      "enabled": true,
+      "interval_minutes": 20
+    },
+    "nutrition": {
+      "enabled": true,
+      "snacks": [
+        {
+          "time": "10:00",
+          "name": "上午加餐",
+          "suggestions": ["坚果", "水果", "酸奶"]
+        },
+        {
+          "time": "15:00",
+          "name": "下午茶",
+          "suggestions": ["水果", "全麦饼干"]
+        }
+      ]
+    },
+    "medication": {
+      "items": []
+    },
+    "posture": {
+      "enabled": true,
+      "interval_minutes": 30
+    },
+    "relaxation": {
+      "enabled": true,
+      "times": ["10:30", "16:00"]
+    },
+    "fetal_movement": {
+      "enabled": false,
+      "enable_week": 18,
+      "times": ["09:00", "14:00", "20:00"]
+    },
+    "nap": {
+      "enabled": true,
+      "time": "12:30",
+      "duration_minutes": 30
+    }
+  },
+  "ai_mode": "smart",
+  "notifications": {
+    "sound": true,
+    "popup": true,
+    "duration_seconds": 5
+  }
+}

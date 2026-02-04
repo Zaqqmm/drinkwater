@@ -1,0 +1,22 @@
+# DrinkWater - Windows 桌面提醒应用依赖
+
+# UI 框架
+PySide6>=6.6.0
+
+# 定时调度
+APScheduler>=3.10.4
+
+# 系统通知
+plyer>=2.1.0
+
+# HTTP 客户端（用于 API 调用）
+httpx>=0.25.0
+
+# 版本管理
+packaging>=23.0
+
+# JWT 认证（用于 GLM-4）
+PyJWT>=2.8.0
+
+# 开发依赖
+pyinstaller>=6.0.0

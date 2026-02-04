@@ -1,0 +1,156 @@
+# -*- coding: utf-8 -*-
+"""系统托盘图标"""
+
+from PySide6.QtWidgets import QSystemTrayIcon, QMenu
+from PySide6.QtCore import Slot
+from PySide6.QtGui import QIcon, QAction
+
+from .theme_manager import ThemeManager
+from ..utils.constants import APP_NAME
+
+
+class TrayIcon(QSystemTrayIcon):
+    """系统托盘图标"""
+    
+    def __init__(self, main_window, theme_manager: ThemeManager, parent=None):
+        super().__init__(parent)
+        
+        self._main_window = main_window
+        self._theme_manager = theme_manager
+        self._is_paused = False
+        
+        self._setup_icon()
+        self._setup_menu()
+        self._connect_signals()
+    
+    def _setup_icon(self):
+        """设置托盘图标"""
+        icon = self._theme_manager.get_icon('tray')
+        if icon and not icon.isNull():
+            self.setIcon(icon)
+        else:
+            # 使用默认图标
+            self.setIcon(QIcon())
+        
+        self.setToolTip(f"{APP_NAME} - 点击显示主窗口")
+    
+    def _setup_menu(self):
+        """设置右键菜单"""
+        menu = QMenu()
+        
+        # 显示主窗口
+        show_action = QAction("📱 显示主窗口", self)
+        show_action.triggered.connect(self._on_show)
+        menu.addAction(show_action)
+        
+        menu.addSeparator()
+        
+        # 快速喝水记录
+        water_action = QAction("💧 记录喝水", self)
+        water_action.triggered.connect(self._on_record_water)
+        menu.addAction(water_action)
+        
+        menu.addSeparator()
+        
+        # 暂停/恢复提醒
+        self._pause_action = QAction("⏸️ 暂停提醒", self)
+        self._pause_action.triggered.connect(self._on_toggle_pause)
+        menu.addAction(self._pause_action)
+        
+        menu.addSeparator()
+        
+        # 设置
+        settings_action = QAction("⚙️ 设置", self)
+        settings_action.triggered.connect(self._on_settings)
+        menu.addAction(settings_action)
+        
+        menu.addSeparator()
+        
+        # 退出
+        quit_action = QAction("❌ 退出", self)
+        quit_action.triggered.connect(self._on_quit)
+        menu.addAction(quit_action)
+        
+        self.setContextMenu(menu)
+    
+    def _connect_signals(self):
+        """连接信号"""
+        self.activated.connect(self._on_activated)
+        self._theme_manager.theme_changed.connect(self._on_theme_changed)
+    
+    @Slot(QSystemTrayIcon.ActivationReason)
+    def _on_activated(self, reason):
+        """托盘图标激活"""
+        if reason == QSystemTrayIcon.Trigger:
+            # 单击 - 显示/隐藏主窗口
+            if self._main_window.isVisible():
+                self._main_window.hide()
+            else:
+                self._main_window.show_from_tray()
+        elif reason == QSystemTrayIcon.DoubleClick:
+            # 双击 - 显示主窗口
+            self._main_window.show_from_tray()
+    
+    @Slot()
+    def _on_show(self):
+        """显示主窗口"""
+        self._main_window.show_from_tray()
+    
+    @Slot()
+    def _on_record_water(self):
+        """记录喝水"""
+        # 显示简单通知
+        self.showMessage(
+            "💧 喝水打卡",
+            "已记录一次喝水，继续保持！",
+            QSystemTrayIcon.Information,
+            3000
+        )
+        # TODO: 记录到数据
+    
+    @Slot()
+    def _on_toggle_pause(self):
+        """暂停/恢复提醒"""
+        self._is_paused = not self._is_paused
+        
+        if self._is_paused:
+            self._pause_action.setText("▶️ 恢复提醒")
+            self.showMessage(
+                "⏸️ 提醒已暂停",
+                "所有提醒已暂停，点击恢复",
+                QSystemTrayIcon.Information,
+                2000
+            )
+            # TODO: 暂停调度器
+        else:
+            self._pause_action.setText("⏸️ 暂停提醒")
+            self.showMessage(
+                "▶️ 提醒已恢复",
+                "所有提醒已恢复正常",
+                QSystemTrayIcon.Information,
+                2000
+            )
+            # TODO: 恢复调度器
+    
+    @Slot()
+    def _on_settings(self):
+        """打开设置"""
+        self._main_window.show_from_tray()
+        self._main_window._on_settings()
+    
+    @Slot()
+    def _on_quit(self):
+        """退出应用"""
+        from PySide6.QtWidgets import QApplication
+        QApplication.quit()
+    
+    @Slot(str)
+    def _on_theme_changed(self, theme_name: str):
+        """主题变更"""
+        self._setup_icon()
+    
+    def show_notification(self, title: str, message: str, icon_type=None):
+        """显示通知"""
+        if icon_type is None:
+            icon_type = QSystemTrayIcon.Information
+        self.showMessage(title, message, icon_type, 5000)
