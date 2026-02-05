@@ -38,8 +38,16 @@ def main():
     app.setApplicationName(APP_NAME)
     app.setQuitOnLastWindowClosed(False)  # 关闭窗口不退出，最小化到托盘
     
-    # 设置默认字体
-    font = QFont("Microsoft YaHei", 10)
+    # 设置默认字体（跨平台兼容）
+    import platform
+    if platform.system() == 'Darwin':
+        # macOS 使用系统默认字体
+        font = QFont("PingFang SC", 10)
+    elif platform.system() == 'Windows':
+        font = QFont("Microsoft YaHei", 10)
+    else:
+        # Linux 或其他系统
+        font = QFont("Noto Sans CJK SC", 10)
     app.setFont(font)
     
     # 初始化存储管理器
@@ -61,6 +69,9 @@ def main():
     # 创建系统托盘
     tray_icon = TrayIcon(main_window, theme_manager)
     tray_icon.show()
+    
+    # 将托盘图标引用传递给主窗口（用于发送通知）
+    main_window._tray_icon = tray_icon
     
     # 启动调度器
     scheduler.start()
