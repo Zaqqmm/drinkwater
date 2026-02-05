@@ -1,0 +1,249 @@
+
+/* 全局样式 */
+QMainWindow {
+    background-color: {{colors.background}};
+}
+
+/* 具有背景图的容器（通常是 CentralWidget） */
+#centralWidget {
+    border-image: url("{{theme_path}}/{{background_image}}") 0 0 0 0 stretch stretch;
+}
+
+/* 内容覆盖层，提供透明背景以确保文字可读 */
+#contentContainer {
+    background-color: {{colors.overlay_background}};
+    border-radius: {{style.border_radius}}px;
+    margin: 10px;
+}
+
+QWidget {
+    font-family: {{fonts.main}};
+    font-size: {{fonts.size.normal}}px;
+    color: {{colors.text}};
+}
+
+QDialog {
+    background-color: {{colors.background}};
+}
+
+/* 标签 */
+QLabel {
+    color: {{colors.text}};
+    background-color: transparent;
+}
+
+QLabel#titleLabel {
+    font-size: {{fonts.size.title}}px;
+    font-weight: bold;
+    color: {{colors.primary}};
+}
+
+QLabel#sectionLabel {
+    font-size: {{fonts.size.subtitle}}px;
+    font-weight: bold;
+    color: {{colors.primary}};
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* 按钮 */
+QPushButton {
+    background-color: {{colors.primary}};
+    color: white;
+    border: none;
+    border-radius: {{style.border_radius}}px;
+    padding: 8px 16px;
+    font-weight: bold;
+    min-height: {{style.button_height}}px;
+}
+
+QPushButton:hover {
+    background-color: {{colors.primary_hover}};
+}
+
+QPushButton:pressed {
+    background-color: {{colors.primary_pressed}};
+    padding-top: 9px;
+    padding-left: 17px;
+}
+
+QPushButton:disabled {
+    background-color: #CCCCCC;
+    color: #888888;
+}
+
+QPushButton#secondaryButton {
+    background-color: transparent;
+    color: {{colors.primary}};
+    border: 2px solid {{colors.primary}};
+}
+
+QPushButton#secondaryButton:hover {
+    background-color: {{colors.primary}};
+    color: white;
+}
+
+/* 输入控件 */
+QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox, QTimeEdit, QDateEdit, QComboBox {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid {{colors.border}};
+    border-radius: {{style.border_radius}}px;
+    padding: 8px;
+    min-height: {{style.button_height}}px;
+    selection-background-color: {{colors.primary}};
+}
+
+QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {
+    border: 2px solid {{colors.primary}};
+    background-color: #FFFFFF;
+}
+
+/* 组合框 */
+QComboBox::drop-down {
+    border: none;
+    width: 30px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #FFFFFF;
+    border: 1px solid {{colors.border}};
+    border-radius: {{style.border_radius}}px;
+    selection-background-color: {{colors.primary}};
+    selection-color: white;
+    padding: 5px;
+}
+
+/* 复选框与单选框 */
+QCheckBox, QRadioButton {
+    spacing: 8px;
+}
+
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 20px;
+    height: 20px;
+    border: 1px solid {{colors.border}};
+    background-color: white;
+    border-radius: 4px;
+}
+
+QRadioButton::indicator {
+    border-radius: 10px;
+}
+
+QCheckBox::indicator:checked, QRadioButton::indicator:checked {
+    background-color: {{colors.primary}};
+    border-color: {{colors.primary}};
+    image: url(":/icons/check.png"); /* 这里可能需要 SVG 或纯色绘制 */
+}
+
+/* 分组框 */
+QGroupBox {
+    border: 1px solid {{colors.border}};
+    border-radius: {{style.border_radius}}px;
+    margin-top: 1.5em;
+    padding-top: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0 10px;
+    color: {{colors.primary}};
+    font-weight: bold;
+    background-color: transparent;
+}
+
+/* 选项卡 */
+QTabWidget::pane {
+    border: 1px solid {{colors.border}};
+    border-radius: {{style.border_radius}}px;
+    background-color: {{colors.card_background}};
+    padding: 10px;
+}
+
+QTabBar::tab {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: {{colors.text}};
+    padding: 10px 20px;
+    border-top-left-radius: {{style.border_radius}}px;
+    border-top-right-radius: {{style.border_radius}}px;
+    margin-right: 4px;
+    min-width: 80px;
+}
+
+QTabBar::tab:selected {
+    background-color: {{colors.primary}};
+    color: white;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* 滚动区域 */
+QScrollArea {
+    border: none;
+    background-color: transparent;
+}
+
+QScrollBar:vertical {
+    background-color: transparent;
+    width: 10px;
+    margin: 0;
+}
+
+QScrollBar::handle:vertical {
+    background-color: {{colors.border}};
+    border-radius: 5px;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: {{colors.primary}};
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+/* 卡片样式 */
+QFrame#card {
+    background-color: {{colors.card_background}};
+    border-radius: {{style.border_radius}}px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+QFrame#card:hover {
+    border: 1px solid {{colors.primary}};
+    background-color: #FFFFFF;
+}
+
+/* 顶部标题栏 */
+QFrame#header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 10px;
+}
+
+/* 列表与树 */
+QListWidget, QTreeWidget, QTableWidget {
+    background-color: {{colors.card_background}};
+    border: 1px solid {{colors.border}};
+    border-radius: {{style.border_radius}}px;
+    alternate-background-color: rgba(0,0,0,0.02);
+}
+
+QListWidget::item, QTreeWidget::item {
+    padding: 10px;
+    border-radius: {{style.border_radius}}px;
+}
+
+QListWidget::item:selected, QTreeWidget::item:selected {
+    background-color: {{colors.primary}};
+    color: white;
+}
+
+QListWidget::item:hover:!selected {
+    background-color: rgba(255, 255, 255, 0.8);
+}

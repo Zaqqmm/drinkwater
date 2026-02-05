@@ -1,0 +1,39 @@
+{
+  "name": "demon_slayer",
+  "display_name": "鬼灭之刃主题",
+  "version": "1.1.0",
+  "author": "DrinkWater Team",
+  "description": "日式和风，鬼灭之刃风格主题，带背景图",
+  "colors": {
+    "primary": "#2C1810",
+    "primary_hover": "#DC143C",
+    "primary_pressed": "#8B0000",
+    "secondary": "#DC143C",
+    "accent": "#00CED1",
+    "background": "#F5E6D3",
+    "overlay_background": "rgba(255, 255, 255, 0.85)",
+    "card_background": "rgba(255, 255, 255, 0.9)",
+    "text": "#2C1810",
+    "text_secondary": "#555555",
+    "border": "#DC143C",
+    "success": "#228B22",
+    "warning": "#FF8C00",
+    "error": "#DC143C"
+  },
+  "fonts": {
+    "main": "\"Microsoft YaHei\", \"PingFang SC\", \"Segoe UI\", sans-serif",
+    "size": {
+      "title": 18,
+      "subtitle": 16,
+      "normal": 13,
+      "small": 11
+    }
+  },
+  "style": {
+    "border_radius": 10,
+    "button_height": 38,
+    "card_shadow": true,
+    "animation_enabled": true
+  },
+  "background_image": "images/background.jpg"
+}

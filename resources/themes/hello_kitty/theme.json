@@ -1,0 +1,39 @@
+{
+  "name": "hello_kitty",
+  "display_name": "Hello Kitty 主题",
+  "version": "1.1.0",
+  "author": "DrinkWater Team",
+  "description": "可爱的 Hello Kitty 粉色主题，带背景图",
+  "colors": {
+    "primary": "#FF69B4",
+    "primary_hover": "#FF85C1",
+    "primary_pressed": "#E6559F",
+    "secondary": "#FFFFFF",
+    "accent": "#FFD700",
+    "background": "#FFF0F5",
+    "overlay_background": "rgba(255, 255, 255, 0.85)",
+    "card_background": "rgba(255, 255, 255, 0.9)",
+    "text": "#FF1493",
+    "text_secondary": "#666666",
+    "border": "#FFB6D9",
+    "success": "#90EE90",
+    "warning": "#FFD700",
+    "error": "#FF6B6B"
+  },
+  "fonts": {
+    "main": "\"Microsoft YaHei\", \"PingFang SC\", \"Segoe UI\", sans-serif",
+    "size": {
+      "title": 18,
+      "subtitle": 16,
+      "normal": 13,
+      "small": 11
+    }
+  },
+  "style": {
+    "border_radius": 15,
+    "button_height": 38,
+    "card_shadow": true,
+    "animation_enabled": true
+  },
+  "background_image": "images/background.jpg"
+}
