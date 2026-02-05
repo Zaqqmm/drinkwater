@@ -19,9 +19,11 @@ class DietRecordDialog(QDialog):
     
     MEAL_TYPES = [
         ('breakfast', '🌅 早餐'),
+        ('morning_snack', '🥤 上午加餐'),
         ('lunch', '☀️ 午餐'),
+        ('afternoon_snack', '🍵 下午加餐'),
         ('dinner', '🌙 晚餐'),
-        ('snack', '🍪 加餐'),
+        ('evening_snack', '🥛 晚上加餐'),
     ]
     
     def __init__(self, storage: StorageManager, parent=None):

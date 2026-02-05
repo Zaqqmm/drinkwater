@@ -18,5 +18,8 @@ packaging>=23.0
 # JWT 认证（用于 GLM-4）
 PyJWT>=2.8.0
 
+# Markdown 渲染
+markdown>=3.5.0
+
 # 开发依赖
 pyinstaller>=6.0.0
