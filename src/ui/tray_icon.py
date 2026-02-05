@@ -2,8 +2,8 @@
 """系统托盘图标"""
 
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
-from PySide6.QtCore import Slot
-from PySide6.QtGui import QIcon, QAction
+from PySide6.QtCore import Slot, Qt
+from PySide6.QtGui import QIcon, QAction, QPixmap, QPainter, QColor, QPainterPath, QBrush, QPen
 
 from .theme_manager import ThemeManager
 from ..utils.constants import APP_NAME
@@ -23,14 +23,82 @@ class TrayIcon(QSystemTrayIcon):
         self._setup_menu()
         self._connect_signals()
     
+    def _create_default_tray_icon(self) -> QIcon:
+        """创建默认的水滴托盘图标"""
+        # 创建一个 64x64 的透明画布
+        size = 64
+        pixmap = QPixmap(size, size)
+        pixmap.fill(Qt.transparent)
+        
+        painter = QPainter(pixmap)
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        
+        # 绘制水滴形状
+        path = QPainterPath()
+        
+        # 水滴的顶点和曲线
+        cx, cy = size / 2, size * 0.15  # 顶点位置
+        bottom_y = size * 0.85  # 底部位置
+        width = size * 0.4  # 水滴宽度的一半
+        
+        # 从顶点开始绘制水滴
+        path.moveTo(cx, cy)
+        # 左侧曲线
+        path.cubicTo(
+            cx - width * 0.3, cy + size * 0.2,  # 控制点1
+            cx - width, bottom_y - size * 0.2,  # 控制点2
+            cx - width * 0.8, bottom_y - size * 0.1  # 终点
+        )
+        # 底部圆弧（左半部分）
+        path.cubicTo(
+            cx - width * 0.6, bottom_y + size * 0.05,
+            cx - width * 0.2, bottom_y + size * 0.08,
+            cx, bottom_y
+        )
+        # 底部圆弧（右半部分）
+        path.cubicTo(
+            cx + width * 0.2, bottom_y + size * 0.08,
+            cx + width * 0.6, bottom_y + size * 0.05,
+            cx + width * 0.8, bottom_y - size * 0.1
+        )
+        # 右侧曲线回到顶点
+        path.cubicTo(
+            cx + width, bottom_y - size * 0.2,
+            cx + width * 0.3, cy + size * 0.2,
+            cx, cy
+        )
+        
+        # 填充水滴（使用主题色或默认蓝色）
+        try:
+            primary_color = self._theme_manager.get_color('primary')
+            if not primary_color.isValid():
+                primary_color = QColor("#4A90D9")
+        except:
+            primary_color = QColor("#4A90D9")  # 默认蓝色
+        
+        painter.setBrush(QBrush(primary_color))
+        painter.setPen(QPen(primary_color.darker(120), 2))
+        painter.drawPath(path)
+        
+        # 添加高光效果
+        highlight = QPainterPath()
+        highlight.addEllipse(cx - width * 0.3, cy + size * 0.25, width * 0.35, width * 0.5)
+        painter.setBrush(QBrush(QColor(255, 255, 255, 120)))
+        painter.setPen(Qt.NoPen)
+        painter.drawPath(highlight)
+        
+        painter.end()
+        
+        return QIcon(pixmap)
+    
     def _setup_icon(self):
         """设置托盘图标"""
         icon = self._theme_manager.get_icon('tray')
         if icon and not icon.isNull():
             self.setIcon(icon)
         else:
-            # 使用默认图标
-            self.setIcon(QIcon())
+            # 使用动态生成的默认图标
+            self.setIcon(self._create_default_tray_icon())
         
         self.setToolTip(f"{APP_NAME} - 点击显示主窗口")
     
