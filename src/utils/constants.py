@@ -43,7 +43,8 @@ DEFAULT_CONFIG = {
         "enabled": True,
         "interval_minutes": 45,
         "start_time": "09:00",
-        "end_time": "18:00"
+        "end_time": "18:00",
+        "daily_target": 1800
     },
     "pregnancy": {
         "enabled": False,

@@ -242,3 +242,28 @@ class FetalMovementRecord:
         if data.get('end_time'):
             data['end_time'] = datetime.fromisoformat(data['end_time'])
         return cls(**data)
+
+
+@dataclass
+class WaterIntakeRecord:
+    """饮水记录"""
+    id: str
+    time: datetime
+    amount: int  # 毫升
+    note: str = ""
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为字典"""
+        return {
+            'id': self.id,
+            'time': self.time.isoformat(),
+            'amount': self.amount,
+            'note': self.note
+        }
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'WaterIntakeRecord':
+        """从字典创建"""
+        data = data.copy()
+        data['time'] = datetime.fromisoformat(data['time'])
+        return cls(**data)

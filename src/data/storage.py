@@ -13,7 +13,8 @@ from ..utils.constants import (
 from ..utils.helpers import load_json, save_json
 from .models import (
     Event, Medication, PregnancyConfig, 
-    DietRecord, MealRecord, FetalMovementRecord
+    DietRecord, MealRecord, FetalMovementRecord,
+    WaterIntakeRecord
 )
 
 
@@ -255,3 +256,39 @@ class StorageManager:
                 self._data['fetal_movements'] = records
                 return self.save_data()
         return False
+    
+    # ==================== 饮水记录 ====================
+    
+    def get_water_records(self, record_date: date) -> List[WaterIntakeRecord]:
+        """获取指定日期的饮水记录"""
+        records_data = self._data.get('water_records', [])
+        records = [WaterIntakeRecord.from_dict(r) for r in records_data]
+        # 按日期筛选
+        return [r for r in records if r.time.date() == record_date]
+    
+    def get_today_water_records(self) -> List[WaterIntakeRecord]:
+        """获取今日饮水记录"""
+        return self.get_water_records(date.today())
+    
+    def get_today_water_total(self) -> int:
+        """获取今日总饮水量（毫升）"""
+        records = self.get_today_water_records()
+        return sum(r.amount for r in records)
+    
+    def get_water_total(self, record_date: date) -> int:
+        """获取指定日期总饮水量（毫升）"""
+        records = self.get_water_records(record_date)
+        return sum(r.amount for r in records)
+    
+    def add_water_record(self, record: WaterIntakeRecord) -> bool:
+        """添加饮水记录"""
+        if 'water_records' not in self._data:
+            self._data['water_records'] = []
+        self._data['water_records'].append(record.to_dict())
+        return self.save_data()
+    
+    def delete_water_record(self, record_id: str) -> bool:
+        """删除饮水记录"""
+        records = self._data.get('water_records', [])
+        self._data['water_records'] = [r for r in records if r['id'] != record_id]
+        return self.save_data()

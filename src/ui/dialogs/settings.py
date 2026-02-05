@@ -136,28 +136,20 @@ class SettingsDialog(QDialog):
         layout = QVBoxLayout(widget)
         layout.setSpacing(16)
         
-        # 喝水提醒
+        # 喝水提醒提示
         water_group = QGroupBox("💧 喝水提醒")
-        water_layout = QFormLayout(water_group)
+        water_layout = QVBoxLayout(water_group)
         
-        self._water_enabled_check = QCheckBox("启用喝水提醒")
-        water_layout.addRow(self._water_enabled_check)
-        
-        self._water_interval_spin = QSpinBox()
-        self._water_interval_spin.setRange(15, 120)
-        self._water_interval_spin.setSuffix(" 分钟")
-        water_layout.addRow("提醒间隔：", self._water_interval_spin)
-        
-        time_layout = QHBoxLayout()
-        self._water_start_time = QTimeEdit()
-        self._water_start_time.setDisplayFormat("HH:mm")
-        time_layout.addWidget(self._water_start_time)
-        time_layout.addWidget(QLabel("至"))
-        self._water_end_time = QTimeEdit()
-        self._water_end_time.setDisplayFormat("HH:mm")
-        time_layout.addWidget(self._water_end_time)
-        time_layout.addStretch()
-        water_layout.addRow("提醒时段：", time_layout)
+        water_info = QLabel(
+            "喝水记录和提醒设置已移至独立的「喝水记录」标签页。\n\n"
+            "在喝水记录页面，您可以：\n"
+            "• 查看每日饮水进度\n"
+            "• 快捷记录饮水量\n"
+            "• 设置每日目标和提醒"
+        )
+        water_info.setWordWrap(True)
+        water_info.setStyleSheet("color: #666666;")
+        water_layout.addWidget(water_info)
         
         layout.addWidget(water_group)
         layout.addStretch()
@@ -348,16 +340,6 @@ class SettingsDialog(QDialog):
         self._sound_check.setChecked(notifications.get('sound', True))
         self._popup_check.setChecked(notifications.get('popup', True))
         
-        # 喝水提醒
-        water = config.get('water_reminder', {})
-        self._water_enabled_check.setChecked(water.get('enabled', True))
-        self._water_interval_spin.setValue(water.get('interval_minutes', 45))
-        
-        start_time = water.get('start_time', '09:00')
-        end_time = water.get('end_time', '18:00')
-        self._water_start_time.setTime(QTime.fromString(start_time, "HH:mm"))
-        self._water_end_time.setTime(QTime.fromString(end_time, "HH:mm"))
-        
         # 职场健康
         workplace = config.get('workplace_reminders', {})
         
@@ -411,12 +393,6 @@ class SettingsDialog(QDialog):
         self._storage.set_config('autostart', self._autostart_check.isChecked())
         self._storage.set_config('notifications.sound', self._sound_check.isChecked())
         self._storage.set_config('notifications.popup', self._popup_check.isChecked())
-        
-        # 喝水提醒
-        self._storage.set_config('water_reminder.enabled', self._water_enabled_check.isChecked())
-        self._storage.set_config('water_reminder.interval_minutes', self._water_interval_spin.value())
-        self._storage.set_config('water_reminder.start_time', self._water_start_time.time().toString("HH:mm"))
-        self._storage.set_config('water_reminder.end_time', self._water_end_time.time().toString("HH:mm"))
         
         # 职场健康
         self._storage.set_config('workplace_reminders.stand_up.enabled', self._stand_enabled_check.isChecked())
